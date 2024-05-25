@@ -1,0 +1,461 @@
+enable
+config t
+no ip domain-lookup
+hostname CISCO-SW-1
+service password-encryption
+username redes secret redes
+enable secret class
+banner motd #Authorized Access Only#
+!
+vlan 10
+name Cisco_Sales
+vlan 20
+name Cisco_BU
+vlan 30
+name Cisco_HR
+vlan 40
+name Cisco_IT
+exit
+int vlan 10
+ip address 172.16.3.254 255.255.252.0
+int vlan 20
+ip address 172.16.7.254 255.255.252.0
+int vlan 30
+ip address 172.16.9.254 255.255.254.0
+int vlan 40
+ip address 172.16.10.254 255.255.255.0
+exit
+int gigabitEthernet 0/1
+no shut
+switchport mode trunk
+int fastEthernet 0/2
+no shut
+switchport mode access
+switchport access vlan 30
+int fastEthernet 0/3
+no shut
+switchport mode access
+switchport access vlan 10
+int fastEthernet 0/1
+no shut
+switchport mode trunk
+!
+line con 0
+ logging synchronous
+ login local
+ exec-timeout 5 0
+!
+line vty 0 15
+ login local
+ exec-timeout 5 0
+exit
+exit
+copy running-config startup-config
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+enable
+config t
+no ip domain-lookup
+hostname CISCO-SW-2
+service password-encryption
+username redes secret redes
+enable secret class
+banner motd #Authorized Access Only#
+!
+vlan 10
+name Cisco_Sales
+vlan 20
+name Cisco_BU
+vlan 30
+name Cisco_HR
+vlan 40
+name Cisco_IT
+exit
+int vlan 10
+ip address 172.16.3.253 255.255.252.0
+int vlan 20
+ip address 172.16.7.253 255.255.252.0
+int vlan 30
+ip address 172.16.9.253 255.255.254.0
+int vlan 40
+ip address 172.16.10.253 255.255.255.0
+exit
+int gigabitEthernet 0/1
+no shut
+switchport mode trunk
+int fastEthernet 0/2
+no shut
+switchport mode access
+switchport access vlan 40
+int fastEthernet 0/3
+no shut
+switchport mode access
+switchport access vlan 20
+int fastEthernet 0/1
+no shut
+switchport mode trunk
+!
+line con 0
+ logging synchronous
+ login local
+ exec-timeout 5 0
+!
+line vty 0 15
+ login local
+ exec-timeout 5 0
+exit
+exit
+copy running-config startup-config
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+enable
+config t
+no ip domain-lookup
+hostname SPLUNK-SW-1
+service password-encryption
+username redes secret redes
+enable secret class
+banner motd #Authorized Access Only#
+!
+vlan 10
+name Splunk_Sales
+vlan 20
+name Splunk_IT
+vlan 30
+name Splunk_HR
+vlan 40
+name Splunk_BU
+exit
+int vlan 10
+ip address 192.168.3.254 255.255.252.0
+int vlan 20
+ip address 192.168.5.254 255.255.254.0
+int vlan 30
+ip address 192.168.6.254 255.255.255.0
+int vlan 40
+ip address 192.168.7.254 255.255.255.0
+exit
+int gigabitEthernet 0/1
+no shut
+switchport mode trunk
+int fastEthernet 0/2
+no shut
+switchport mode access
+switchport access vlan 20
+int fastEthernet 0/3
+no shut
+switchport mode access
+switchport access vlan 10
+int fastEthernet 0/1
+no shut
+switchport mode trunk
+!
+line con 0
+ logging synchronous
+ login local
+ exec-timeout 5 0
+!
+line vty 0 15
+ login local
+ exec-timeout 5 0
+exit
+exit
+copy running-config startup-config
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+enable
+config t
+no ip domain-lookup
+hostname SPLUNK-SW-2
+service password-encryption
+username redes secret redes
+enable secret class
+banner motd #Authorized Access Only#
+!
+vlan 10
+name Splunk_Sales
+vlan 20
+name Splunk_IT
+vlan 30
+name Splunk_HR
+vlan 40
+name Splunk_BU
+exit
+int vlan 10
+ip address 192.168.3.253 255.255.252.0
+int vlan 20
+ip address 192.168.5.253 255.255.254.0
+int vlan 30
+ip address 192.168.6.253 255.255.255.0
+int vlan 40
+ip address 192.168.7.253 255.255.255.0
+exit
+int gigabitEthernet 0/1
+no shut
+switchport mode trunk
+int fastEthernet 0/2
+no shut
+switchport mode access
+switchport access vlan 30
+int fastEthernet 0/3
+no shut
+switchport mode access
+switchport access vlan 40
+int fastEthernet 0/1
+no shut
+switchport mode trunk
+!
+line con 0
+ logging synchronous
+ login local
+ exec-timeout 5 0
+!
+line vty 0 15
+ login local
+ exec-timeout 5 0
+exit
+exit
+copy running-config startup-config
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+enable
+conf t
+no ip domain-lookup
+hostname CISCO-RT-1
+service password-encryption
+username redes secret redes
+enable secret class
+banner motd #Authorized Access Only#
+!
+int gigabitEthernet 0/0.10
+encapsulation dot1Q 10
+ip address 172.16.0.1 255.255.252.0
+ip access-group 110 out
+int gigabitEthernet 0/0.30
+encapsulation dot1Q 30
+ip address 172.16.8.1 255.255.254.0
+ip access-group 130 out
+int gigabitEthernet 0/0
+no shut
+int gigabitEthernet 0/1.20
+encapsulation dot1Q 20
+ip address 172.16.4.1 255.255.252.0
+ip access-group 120 out
+int gigabitEthernet 0/1.40
+encapsulation dot1Q 40
+ip address 172.16.10.1 255.255.255.0
+ip access-group 140 out
+int gigabitEthernet 0/1
+no shut
+int serial 0/1/0
+ip address 12.0.0.1 255.255.255.224
+clock rate 4000000
+no shut
+int serial 0/1/1
+ip address 11.0.0.2 255.255.255.224
+no shut
+exit
+!
+router bgp 100
+network 172.16.0.0 mask 255.255.252.0
+network 172.16.4.0 mask 255.255.252.0
+network 172.16.8.0 mask 255.255.254.0
+network 172.16.10.0 mask 255.255.255.0
+neighbor 12.0.0.2 remote-as 200
+neighbor 11.0.0.1 remote-as 300
+neighbor 192.168.0.1 remote-as 200
+neighbor 192.168.4.1 remote-as 200
+neighbor 192.168.6.1 remote-as 200
+neighbor 192.168.7.1 remote-as 200
+neighbor 192.168.8.1 remote-as 200
+neighbor 10.0.0.1 remote-as 300
+exit
+!
+line con 0
+ logging synchronous
+ login local
+ exec-timeout 5 0
+!
+line vty 0 15
+ login local
+ exec-timeout 5 0
+exit
+access-list 110 permit ip 10.0.0.0 0.0.0.255 172.16.0.0 0.0.3.255
+access-list 110 permit ip 192.168.0.0 0.0.3.255 172.16.0.0 0.0.3.255
+access-list 120 permit ip 10.0.0.0 0.0.0.255 172.16.4.0 0.0.3.255
+access-list 120 permit ip 192.168.4.0 0.0.1.255 172.16.4.0 0.0.3.255
+access-list 120 permit ip 192.168.7.0 0.0.0.255 172.16.4.0 0.0.3.255
+access-list 130 permit ip 10.0.0.0 0.0.0.255 172.16.8.0 0.0.1.255
+access-list 130 permit ip 192.168.0.0 0.0.3.255 172.16.8.0 0.0.1.255
+access-list 130 permit ip 192.168.4.0 0.0.1.255 172.16.8.0 0.0.1.255
+access-list 130 permit ip 192.168.6.0 0.0.0.255 172.16.8.0 0.0.1.255
+access-list 130 permit ip 192.168.7.0 0.0.0.255 172.16.8.0 0.0.1.255
+access-list 140 permit ip 10.0.0.0 0.0.0.255 172.16.10.0 0.0.0.255
+access-list 140 permit ip 192.168.4.0 0.0.1.255 172.16.10.0 0.0.0.255
+access-list 140 permit ip 192.168.7.0 0.0.0.255 172.16.10.0 0.0.0.255
+access-list 110 deny ip any any
+access-list 120 deny ip any any
+access-list 130 deny ip any any
+access-list 140 deny ip any any
+exit
+copy running-config startup-config
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+enable
+conf t
+no ip domain-lookup
+hostname SPLUNK-RT-1
+service password-encryption
+username redes secret redes
+enable secret class
+banner motd #Authorized Access Only#
+!
+int gigabitEthernet 0/1.10
+encapsulation dot1Q 10
+ip address 192.168.0.1 255.255.252.0
+int gigabitEthernet 0/1.20
+encapsulation dot1Q 20
+ip address 192.168.4.1 255.255.254.0
+int gigabitEthernet 0/1
+no shut
+!
+int gigabitEthernet 0/0
+ip address 192.168.8.1 255.255.255.252
+no shut
+int serial 0/1/0
+ip address 12.0.0.2 255.255.255.224
+no shut
+int serial 0/1/1
+ip address 13.0.0.2 255.255.255.224
+no shut
+exit
+!
+router bgp 200
+network 192.168.0.0 mask 255.255.252.0
+network 192.168.4.0 mask 255.255.254.0
+network 192.168.6.0 mask 255.255.255.0
+network 192.168.7.0 mask 255.255.255.0
+network 192.168.8.0 mask 255.255.255.252
+neighbor 12.0.0.1 remote-as 100
+neighbor 13.0.0.1 remote-as 300
+neighbor 172.16.0.1 remote-as 100
+neighbor 172.16.4.1 remote-as 100
+neighbor 172.16.8.1 remote-as 100
+neighbor 172.16.10.1 remote-as 100
+neighbor 10.0.0.1 remote-as 300
+exit
+!
+line con 0
+ logging synchronous
+ login local
+ exec-timeout 5 0
+!
+line vty 0 15
+ login local
+ exec-timeout 5 0
+exit
+ip route 192.168.6.0 255.255.255.0 192.168.8.2
+ip route 192.168.7.0 255.255.255.0 192.168.8.2
+exit
+copy running-config startup-config
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+enable
+conf t
+no ip domain-lookup
+hostname SPLUNK-RT-2
+service password-encryption
+username redes secret redes
+enable secret class
+banner motd #Authorized Access Only#
+!
+int gigabitEthernet 0/1.30
+encapsulation dot1Q 30
+ip address 192.168.6.1 255.255.255.0
+int gigabitEthernet 0/1.40
+encapsulation dot1Q 40
+ip address 192.168.7.1 255.255.255.0
+int gigabitEthernet 0/1
+no shut
+!
+int gigabitEthernet 0/0
+ip address 192.168.8.2 255.255.255.252
+no shut
+!
+line con 0
+ logging synchronous
+ login local
+ exec-timeout 5 0
+!
+line vty 0 15
+ login local
+ exec-timeout 5 0
+exit
+ip route 192.168.0.0 255.255.252.0 192.168.8.1 
+ip route 192.168.4.0 255.255.254.0 192.168.8.1 
+ip route 172.16.0.0 255.255.252.0 192.168.8.1 
+ip route 172.16.4.0 255.255.252.0 192.168.8.1 
+ip route 172.16.8.0 255.255.254.0 192.168.8.1 
+ip route 172.16.10.0 255.255.255.0 192.168.8.1
+exit
+copy running-config startup-config
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+enable
+conf t
+no ip domain-lookup
+hostname CLOUD-RT-1
+service password-encryption
+username redes secret redes
+enable secret class
+banner motd #Authorized Access Only#
+!
+int gigabitEthernet 0/0
+ip address 10.0.0.1 255.255.255.0
+no shut
+!
+int serial 0/1/0
+ip address 11.0.0.1 255.255.255.224
+clock rate 4000000
+no shut
+int serial 0/1/1
+ip address 13.0.0.1 255.255.255.224
+clock rate 4000000
+no shut
+exit
+!
+router bgp 300
+network 10.0.0.0 mask 255.255.255.0
+neighbor 11.0.0.2 remote-as 100
+neighbor 13.0.0.2 remote-as 200
+neighbor 172.16.0.1 remote-as 100
+neighbor 172.16.4.1 remote-as 100
+neighbor 172.16.8.1 remote-as 100
+neighbor 172.16.10.1 remote-as 100
+neighbor 192.168.0.1 remote-as 200
+neighbor 192.168.4.1 remote-as 200
+neighbor 192.168.6.1 remote-as 200
+neighbor 192.168.7.1 remote-as 200
+neighbor 192.168.8.1 remote-as 200
+exit
+!
+line con 0
+ logging synchronous
+ login local
+ exec-timeout 5 0
+!
+line vty 0 15
+ login local
+ exec-timeout 5 0
+exit
+exit
+copy running-config startup-config
+
+LINEA 461
