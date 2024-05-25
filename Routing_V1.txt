@@ -1,25 +1,25 @@
 -------------------- LAN CISCO --------------------
 CIDR >> 172.16.0.0/16 >> 255.255.0.0
 
---- VLAN Sales (4) ---
+--- VLAN Sales (1) ---
 172.16.0.0/22 >> 255.255.252.0
 Actual >> 520 dispositivos
 172.16.0.0/22 >> 255.255.252.0
 Aumento >> 780 dispositivos
 
---- VLAN BU (3) ---
+--- VLAN BU (2) ---
 172.16.4.0/23 >> 255.255.254.0
 Actual >> 380 dispositivos
 172.16.4.0/22 >> 255.255.252.0
 Aumento >> 570 dispositivos
 
---- VLAN HR (1) ---
+--- VLAN HR (3) ---
 172.16.6.0/24 >> 255.255.255.0
 Actual >> 250 dispositivos
 172.16.8.0/23 >> 255.255.254.0
 Aumento >> 375 dispositivos
 
---- VLAN IT (2) ---
+--- VLAN IT (4) ---
 172.16.7.0/24 >> 255.255.255.0
 Actual >> 125 dispositivos
 172.16.10.0/24 >> 255.255.255.0
@@ -28,7 +28,7 @@ Aumento >> 185 dispositivos
 -------------------- LAN SPLUNK --------------------
 CIDR >> 192.168.0.0/21
 
---- VLAN Sales (4) ---
+--- VLAN Sales (1) ---
 192.168.0.0/23 >> 255.255.254.0
 Actual >> 480 dispositivos
 192.168.0.0/22 >> 255.255.252.0
@@ -40,13 +40,13 @@ Actual >> 225 dispositivos
 192.168.4.0/23 >> 255.255.254.0
 Aumento >> 330 dispositivos
 
---- VLAN HR (1) ---
+--- VLAN HR (3) ---
 192.168.3.0/24 >> 255.255.255.0
 Actual >> 150 dispositivos
 192.168.6.0/24 >> 255.255.255.0
 Aumento >> 225 dispositivos
 
---- VLAN BU (3) ---
+--- VLAN BU (4) ---
 192.168.4.0/24 >> 255.255.255.0
 Actual >> 120 dispositivos
 192.168.7.0/24 >> 255.255.255.0
