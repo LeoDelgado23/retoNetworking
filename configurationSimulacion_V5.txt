@@ -1,4 +1,69 @@
 enable
+conf t
+no ip domain-lookup
+hostname Cisco-CL-RT-01
+service password-encryption
+username redes secret redes
+enable secret redes
+banner motd #Authorized Access Only#
+!
+int gigabitEthernet 0/0.10
+encapsulation dot1Q 10
+ip address 20.0.0.1 255.255.255.0
+int gigabitEthernet 0/0.20
+encapsulation dot1Q 20
+ip address 20.0.1.1 255.255.255.0
+int gigabitEthernet 0/0
+no shut
+!
+int serial 0/0/0
+ip address 12.0.0.25 255.255.255.252
+clock rate 4000000
+no shut
+int serial 0/0/1
+ip address 12.0.0.2 255.255.255.252
+clock rate 4000000
+no shut
+int serial 0/1/0
+ip address 12.0.0.29 255.255.255.252
+clock rate 4000000
+no shut
+int serial 0/1/1
+ip address 12.0.0.6 255.255.255.252
+clock rate 4000000
+no shut
+exit
+!
+router bgp 300
+network 10.0.0.0 mask 255.255.255.0
+neighbor 11.0.0.2 remote-as 100
+neighbor 13.0.0.2 remote-as 200
+neighbor 172.16.0.1 remote-as 100
+neighbor 172.16.4.1 remote-as 100
+neighbor 172.16.8.1 remote-as 100
+neighbor 172.16.10.1 remote-as 100
+neighbor 192.168.0.1 remote-as 200
+neighbor 192.168.4.1 remote-as 200
+neighbor 192.168.6.1 remote-as 200
+neighbor 192.168.7.1 remote-as 200
+neighbor 192.168.8.1 remote-as 200
+exit
+!
+line con 0
+ logging synchronous
+ login local
+ exec-timeout 5 0
+!
+line vty 0 15
+ login local
+ exec-timeout 5 0
+exit
+exit
+copy running-config startup-config
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+enable
 config t
 no ip domain-lookup
 hostname CISCO-CL-SW-01
@@ -24,7 +89,7 @@ int fastEthernet 0/1
 switchport mode access
 switchport access vlan 20
 no shut
-int fastEthernet 0/2 - 5
+int range fastEthernet 0/2 - 5
 switchport mode access
 switchport access vlan 10
 int fastEthernet 0/2
@@ -33,6 +98,70 @@ int fastEthernet 0/3
 no shut
 int fastEthernet 0/4
 no shut
+!
+line con 0
+ logging synchronous
+ login local
+ exec-timeout 5 0
+!
+line vty 0 15
+ login local
+ exec-timeout 5 0
+exit
+exit
+copy running-config startup-config
+--------------------------------------------------------
+--------------------------------------------------------
+--------------------------------------------------------
+enable
+conf t
+no ip domain-lookup
+hostname Splunk-CL-RT-01
+service password-encryption
+username redes secret redes
+enable secret redes
+banner motd #Authorized Access Only#
+!
+int gigabitEthernet 0/0.10
+encapsulation dot1Q 10
+ip address 30.0.0.1 255.255.255.0
+int gigabitEthernet 0/0.20
+encapsulation dot1Q 20
+ip address 30.0.1.1 255.255.255.0
+int gigabitEthernet 0/0
+no shut
+!
+int serial 0/0/0
+ip address 12.0.0.26 255.255.255.252
+no shut
+int serial 0/0/1
+ip address 12.0.0.14 255.255.255.252
+clock rate 4000000
+no shut
+int serial 0/1/0
+ip address 12.0.0.34 255.255.255.252
+clock rate 4000000
+no shut
+int serial 0/1/1
+ip address 12.0.0.9 255.255.255.252
+clock rate 4000000
+no shut
+exit
+!
+router bgp 300
+network 10.0.0.0 mask 255.255.255.0
+neighbor 11.0.0.2 remote-as 100
+neighbor 13.0.0.2 remote-as 200
+neighbor 172.16.0.1 remote-as 100
+neighbor 172.16.4.1 remote-as 100
+neighbor 172.16.8.1 remote-as 100
+neighbor 172.16.10.1 remote-as 100
+neighbor 192.168.0.1 remote-as 200
+neighbor 192.168.4.1 remote-as 200
+neighbor 192.168.6.1 remote-as 200
+neighbor 192.168.7.1 remote-as 200
+neighbor 192.168.8.1 remote-as 200
+exit
 !
 line con 0
  logging synchronous
@@ -74,7 +203,7 @@ int fastEthernet 0/1
 switchport mode access
 switchport access vlan 20
 no shut
-int fastEthernet 0/2 - 5
+int range fastEthernet 0/2 - 5
 switchport mode access
 switchport access vlan 10
 int fastEthernet 0/2
@@ -391,12 +520,12 @@ standby 1 ip 172.16.10.1
 ip helper-address 20.0.0.10
 int gigabitEthernet 0/1
 no shut
-int serial 0/1/0
-ip address 12.0.0.1 255.255.255.252
-no shut
 int serial 0/0/0
 ip address 12.0.0.21 255.255.255.252
 clock rate 4000000
+no shut
+int serial 0/0/1
+ip address 12.0.0.1 255.255.255.252
 no shut
 exit
 !
@@ -487,15 +616,15 @@ standby 1 preempt
 ip helper-address 20.0.0.10
 int gigabitEthernet 0/1
 no shut
-int serial 0/1/1
-ip address 12.0.0.5 255.255.255.252
+int serial 0/0/0
+ip address 12.0.0.17 255.255.255.252
+clock rate 4000000
 no shut
 int serial 0/1/0
 ip address 12.0.0.33 255.255.255.252
 no shut
-int serial 0/0/0
-ip address 12.0.0.17 255.255.255.252
-clock rate 4000000
+int serial 0/0/1
+ip address 12.0.0.5 255.255.255.252
 no shut
 exit
 !
@@ -666,7 +795,7 @@ no shut
 int serial 0/0/0
 ip address 12.0.0.22 255.255.255.252
 no shut
-int serial 0/1/0
+int serial 0/0/1
 ip address 12.0.0.14 255.255.255.252
 no shut
 exit
@@ -689,132 +818,5 @@ ip route 172.16.10.0 255.255.255.0 192.168.8.1
 ip route 10.0.0.0 255.255.255.0 192.168.8.1
 exit
 copy running-config startup-config
---------------------------------------------------------
---------------------------------------------------------
---------------------------------------------------------
-enable
-conf t
-no ip domain-lookup
-hostname Cisco-CL-RT-01
-service password-encryption
-username redes secret redes
-enable secret redes
-banner motd #Authorized Access Only#
-!
-int gigabitEthernet 0/0.10
-ip address 20.0.0.1 255.255.255.0
-int gigabitEthernet 0/0.20
-encapsulation dot1Q 20
-ip address 20.0.1.1 255.255.255.0
-int gigabitEthernet 0/0
-no shut
-!
-int serial 0/0/0
-ip address 12.0.0.25 255.255.255.252
-clock rate 4000000
-no shut
-int serial 0/0/1
-ip address 12.0.0.29 255.255.255.252
-clock rate 4000000
-no shut
-int serial 0/1/0
-ip address 12.0.0.2 255.255.255.252
-clock rate 4000000
-no shut
-int serial 0/1/1
-ip address 12.0.0.6 255.255.255.252
-clock rate 4000000
-no shut
-exit
-!
-router bgp 300
-network 10.0.0.0 mask 255.255.255.0
-neighbor 11.0.0.2 remote-as 100
-neighbor 13.0.0.2 remote-as 200
-neighbor 172.16.0.1 remote-as 100
-neighbor 172.16.4.1 remote-as 100
-neighbor 172.16.8.1 remote-as 100
-neighbor 172.16.10.1 remote-as 100
-neighbor 192.168.0.1 remote-as 200
-neighbor 192.168.4.1 remote-as 200
-neighbor 192.168.6.1 remote-as 200
-neighbor 192.168.7.1 remote-as 200
-neighbor 192.168.8.1 remote-as 200
-exit
-!
-line con 0
- logging synchronous
- login local
- exec-timeout 5 0
-!
-line vty 0 15
- login local
- exec-timeout 5 0
-exit
-exit
-copy running-config startup-config
---------------------------------------------------------
---------------------------------------------------------
---------------------------------------------------------
-enable
-conf t
-no ip domain-lookup
-hostname Splunk-CL-RT-01
-service password-encryption
-username redes secret redes
-enable secret redes
-banner motd #Authorized Access Only#
-!
-int gigabitEthernet 0/0.10
-ip address 30.0.0.1 255.255.255.0
-int gigabitEthernet 0/0.20
-encapsulation dot1Q 20
-ip address 30.0.1.1 255.255.255.0
-int gigabitEthernet 0/0
-no shut
-!
-int serial 0/0/0
-ip address 12.0.0.26 255.255.255.252
-no shut
-int serial 0/0/1
-ip address 12.0.0.33 255.255.255.252
-clock rate 4000000
-no shut
-int serial 0/1/0
-ip address 12.0.0.13 255.255.255.252
-clock rate 4000000
-no shut
-int serial 0/1/1
-ip address 12.0.0.9 255.255.255.252
-clock rate 4000000
-no shut
-exit
-!
-router bgp 300
-network 10.0.0.0 mask 255.255.255.0
-neighbor 11.0.0.2 remote-as 100
-neighbor 13.0.0.2 remote-as 200
-neighbor 172.16.0.1 remote-as 100
-neighbor 172.16.4.1 remote-as 100
-neighbor 172.16.8.1 remote-as 100
-neighbor 172.16.10.1 remote-as 100
-neighbor 192.168.0.1 remote-as 200
-neighbor 192.168.4.1 remote-as 200
-neighbor 192.168.6.1 remote-as 200
-neighbor 192.168.7.1 remote-as 200
-neighbor 192.168.8.1 remote-as 200
-exit
-!
-line con 0
- logging synchronous
- login local
- exec-timeout 5 0
-!
-line vty 0 15
- login local
- exec-timeout 5 0
-exit
-exit
-copy running-config startup-config
 
-LINEA 820
+LINEA 822
