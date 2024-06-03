@@ -1,3 +1,12 @@
+Castañeda >> Troubleshooting : 
+Router 1, network configuration incorrect
+Router 2, "default-information originate" for default route
+Rouer 3, "ip ospf hello-interval 20" configure on serials or delete one configuration
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 To design a system with redundancy for failover scenarios, you can implement various strategies depending on your requirements and available resources. Here's a suggested approach based on your current setup:
 
 1. **High Availability Router**: Ensure that your router is capable of high availability features such as High Availability (HA) or Virtual Router Redundancy Protocol (VRRP). This allows for automatic failover between two routers if one fails.
@@ -41,4 +50,4 @@ To automate the replication of files from an FTP server to other servers for hig
 
 Alternatively, you can use specialized tools for file synchronization and replication, such as rsync for Linux or Robocopy for Windows. These tools offer more advanced features and may be more suitable for complex replication scenarios. Additionally, some FTP servers may have built-in features or plugins for file replication that you can leverage.
 
-LINEA 44
+LINEA 53
