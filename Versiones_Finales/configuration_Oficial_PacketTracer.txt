@@ -35,9 +35,12 @@ no shut
 exit
 !
 router bgp 300
-network 10.0.0.0 mask 255.255.255.0
-neighbor 11.0.0.2 remote-as 100
-neighbor 13.0.0.2 remote-as 200
+network 20.0.0.0 mask 255.255.255.0
+network 20.0.1.0 mask 255.255.255.0
+neighbor 12.0.0.1 remote-as 100
+neighbor 12.0.0.5 remote-as 100
+neighbor 12.0.0.30 remote-as 200
+neighbor 12.0.0.26 remote-as 400
 neighbor 172.16.0.1 remote-as 100
 neighbor 172.16.4.1 remote-as 100
 neighbor 172.16.8.1 remote-as 100
@@ -46,7 +49,8 @@ neighbor 192.168.0.1 remote-as 200
 neighbor 192.168.4.1 remote-as 200
 neighbor 192.168.6.1 remote-as 200
 neighbor 192.168.7.1 remote-as 200
-neighbor 192.168.8.1 remote-as 200
+neighbor 30.0.0.1 remote-as 400
+neighbor 30.0.1.1 remote-as 400
 exit
 !
 line con 0
@@ -135,7 +139,7 @@ int serial 0/0/0
 ip address 12.0.0.26 255.255.255.252
 no shut
 int serial 0/0/1
-ip address 12.0.0.14 255.255.255.252
+ip address 12.0.0.13 255.255.255.252
 clock rate 4000000
 no shut
 int serial 0/1/0
@@ -148,10 +152,13 @@ clock rate 4000000
 no shut
 exit
 !
-router bgp 300
-network 10.0.0.0 mask 255.255.255.0
-neighbor 11.0.0.2 remote-as 100
-neighbor 13.0.0.2 remote-as 200
+router bgp 400
+network 30.0.0.0 mask 255.255.255.0
+network 30.0.1.0 mask 255.255.255.0
+neighbor 12.0.0.33 remote-as 100
+neighbor 12.0.0.10 remote-as 200
+neighbor 12.0.0.14 remote-as 200
+neighbor 12.0.0.25 remote-as 300
 neighbor 172.16.0.1 remote-as 100
 neighbor 172.16.4.1 remote-as 100
 neighbor 172.16.8.1 remote-as 100
@@ -160,7 +167,8 @@ neighbor 192.168.0.1 remote-as 200
 neighbor 192.168.4.1 remote-as 200
 neighbor 192.168.6.1 remote-as 200
 neighbor 192.168.7.1 remote-as 200
-neighbor 192.168.8.1 remote-as 200
+neighbor 20.0.0.1 remote-as 300
+neighbor 20.0.1.1 remote-as 300
 exit
 !
 line con 0
@@ -500,24 +508,24 @@ int gigabitEthernet 0/0.10
 encapsulation dot1Q 10
 ip address 172.16.0.3 255.255.252.0
 standby 1 ip 172.16.0.1
-ip helper-address 20.0.0.10
+ip helper-address 20.0.0.11
 int gigabitEthernet 0/0.30
 encapsulation dot1Q 30
 ip address 172.16.8.3 255.255.254.0
 standby 1 ip 172.16.8.1
-ip helper-address 20.0.0.10
+ip helper-address 20.0.0.11
 int gigabitEthernet 0/0
 no shut
 int gigabitEthernet 0/1.20
 encapsulation dot1Q 20
 ip address 172.16.4.3 255.255.252.0
 standby 1 ip 172.16.4.1
-ip helper-address 20.0.0.10
+ip helper-address 20.0.0.11
 int gigabitEthernet 0/1.40
 encapsulation dot1Q 40
 ip address 172.16.10.3 255.255.255.0
 standby 1 ip 172.16.10.1
-ip helper-address 20.0.0.10
+ip helper-address 20.0.0.11
 int gigabitEthernet 0/1
 no shut
 int serial 0/0/0
@@ -534,14 +542,14 @@ network 172.16.0.0 mask 255.255.252.0
 network 172.16.4.0 mask 255.255.252.0
 network 172.16.8.0 mask 255.255.254.0
 network 172.16.10.0 mask 255.255.255.0
-neighbor 12.0.0.2 remote-as 200
-neighbor 11.0.0.1 remote-as 300
+neighbor 12.0.0.22 remote-as 200
+neighbor 12.0.0.2 remote-as 300
 neighbor 192.168.0.1 remote-as 200
 neighbor 192.168.4.1 remote-as 200
 neighbor 192.168.6.1 remote-as 200
 neighbor 192.168.7.1 remote-as 200
-neighbor 192.168.8.1 remote-as 200
-neighbor 10.0.0.1 remote-as 300
+neighbor 20.0.0.1 remote-as 300
+neighbor 20.0.1.1 remote-as 300
 exit
 !
 line con 0
@@ -553,17 +561,29 @@ line vty 0 15
  login local
  exec-timeout 5 0
 exit
-access-list 110 permit ip 10.0.0.0 0.0.0.255 172.16.0.0 0.0.3.255
+access-list 110 permit ip 20.0.0.0 0.0.0.255 172.16.0.0 0.0.3.255
+access-list 110 permit ip 20.0.1.0 0.0.0.255 172.16.0.0 0.0.3.255
+access-list 110 permit ip 30.0.0.0 0.0.0.255 172.16.0.0 0.0.3.255
+access-list 110 permit ip 30.0.1.0 0.0.0.255 172.16.0.0 0.0.3.255
 access-list 110 permit ip 192.168.0.0 0.0.3.255 172.16.0.0 0.0.3.255
-access-list 120 permit ip 10.0.0.0 0.0.0.255 172.16.4.0 0.0.3.255
+access-list 120 permit ip 20.0.0.0 0.0.0.255 172.16.4.0 0.0.3.255
+access-list 120 permit ip 20.0.1.0 0.0.0.255 172.16.4.0 0.0.3.255
+access-list 120 permit ip 30.0.0.0 0.0.0.255 172.16.4.0 0.0.3.255
+access-list 120 permit ip 30.0.1.0 0.0.0.255 172.16.4.0 0.0.3.255
 access-list 120 permit ip 192.168.4.0 0.0.1.255 172.16.4.0 0.0.3.255
 access-list 120 permit ip 192.168.7.0 0.0.0.255 172.16.4.0 0.0.3.255
-access-list 130 permit ip 10.0.0.0 0.0.0.255 172.16.8.0 0.0.1.255
+access-list 130 permit ip 20.0.0.0 0.0.0.255 172.16.8.0 0.0.1.255
+access-list 130 permit ip 20.0.1.0 0.0.0.255 172.16.8.0 0.0.1.255
+access-list 130 permit ip 30.0.0.0 0.0.0.255 172.16.8.0 0.0.1.255
+access-list 130 permit ip 30.0.1.0 0.0.0.255 172.16.8.0 0.0.1.255
 access-list 130 permit ip 192.168.0.0 0.0.3.255 172.16.8.0 0.0.1.255
 access-list 130 permit ip 192.168.4.0 0.0.1.255 172.16.8.0 0.0.1.255
 access-list 130 permit ip 192.168.6.0 0.0.0.255 172.16.8.0 0.0.1.255
 access-list 130 permit ip 192.168.7.0 0.0.0.255 172.16.8.0 0.0.1.255
-access-list 140 permit ip 10.0.0.0 0.0.0.255 172.16.10.0 0.0.0.255
+access-list 140 permit ip 20.0.0.0 0.0.0.255 172.16.10.0 0.0.0.255
+access-list 140 permit ip 20.0.1.0 0.0.0.255 172.16.10.0 0.0.0.255
+access-list 140 permit ip 30.0.0.0 0.0.0.255 172.16.10.0 0.0.0.255
+access-list 140 permit ip 30.0.1.0 0.0.0.255 172.16.10.0 0.0.0.255
 access-list 140 permit ip 192.168.4.0 0.0.1.255 172.16.10.0 0.0.0.255
 access-list 140 permit ip 192.168.7.0 0.0.0.255 172.16.10.0 0.0.0.255
 access-list 110 deny ip any any
@@ -590,14 +610,14 @@ ip address 172.16.0.2 255.255.252.0
 standby 1 ip 172.16.0.1
 standby 1 priority 150
 standby 1 preempt
-ip helper-address 20.0.0.10
+ip helper-address 20.0.0.11
 int gigabitEthernet 0/0.30
 encapsulation dot1Q 30
 ip address 172.16.8.2 255.255.254.0
 standby 1 ip 172.16.8.1
 standby 1 priority 150
 standby 1 preempt
-ip helper-address 20.0.0.10
+ip helper-address 20.0.0.11
 int gigabitEthernet 0/0
 no shut
 int gigabitEthernet 0/1.20
@@ -606,14 +626,14 @@ ip address 172.16.4.2 255.255.252.0
 standby 1 ip 172.16.4.1
 standby 1 priority 150
 standby 1 preempt
-ip helper-address 20.0.0.10
+ip helper-address 20.0.0.11
 int gigabitEthernet 0/1.40
 encapsulation dot1Q 40
 ip address 172.16.10.2 255.255.255.0
 standby 1 ip 172.16.10.1
 standby 1 priority 150
 standby 1 preempt
-ip helper-address 20.0.0.10
+ip helper-address 20.0.0.11
 int gigabitEthernet 0/1
 no shut
 int serial 0/0/0
@@ -633,14 +653,17 @@ network 172.16.0.0 mask 255.255.252.0
 network 172.16.4.0 mask 255.255.252.0
 network 172.16.8.0 mask 255.255.254.0
 network 172.16.10.0 mask 255.255.255.0
-neighbor 12.0.0.2 remote-as 200
-neighbor 11.0.0.1 remote-as 300
+neighbor 12.0.0.18 remote-as 200
+neighbor 12.0.0.6 remote-as 300
+neighbor 12.0.0.34 remote-as 400
 neighbor 192.168.0.1 remote-as 200
 neighbor 192.168.4.1 remote-as 200
 neighbor 192.168.6.1 remote-as 200
 neighbor 192.168.7.1 remote-as 200
-neighbor 192.168.8.1 remote-as 200
-neighbor 10.0.0.1 remote-as 300
+neighbor 20.0.0.1 remote-as 300
+neighbor 20.0.1.1 remote-as 300
+neighbor 30.0.0.1 remote-as 400
+neighbor 30.0.1.1 remote-as 400
 exit
 !
 line con 0
@@ -652,17 +675,29 @@ line vty 0 15
  login local
  exec-timeout 5 0
 exit
-access-list 110 permit ip 10.0.0.0 0.0.0.255 172.16.0.0 0.0.3.255
+access-list 110 permit ip 20.0.0.0 0.0.0.255 172.16.0.0 0.0.3.255
+access-list 110 permit ip 20.0.1.0 0.0.0.255 172.16.0.0 0.0.3.255
+access-list 110 permit ip 30.0.0.0 0.0.0.255 172.16.0.0 0.0.3.255
+access-list 110 permit ip 30.0.1.0 0.0.0.255 172.16.0.0 0.0.3.255
 access-list 110 permit ip 192.168.0.0 0.0.3.255 172.16.0.0 0.0.3.255
-access-list 120 permit ip 10.0.0.0 0.0.0.255 172.16.4.0 0.0.3.255
+access-list 120 permit ip 20.0.0.0 0.0.0.255 172.16.4.0 0.0.3.255
+access-list 120 permit ip 20.0.1.0 0.0.0.255 172.16.4.0 0.0.3.255
+access-list 120 permit ip 30.0.0.0 0.0.0.255 172.16.4.0 0.0.3.255
+access-list 120 permit ip 30.0.1.0 0.0.0.255 172.16.4.0 0.0.3.255
 access-list 120 permit ip 192.168.4.0 0.0.1.255 172.16.4.0 0.0.3.255
 access-list 120 permit ip 192.168.7.0 0.0.0.255 172.16.4.0 0.0.3.255
-access-list 130 permit ip 10.0.0.0 0.0.0.255 172.16.8.0 0.0.1.255
+access-list 130 permit ip 20.0.0.0 0.0.0.255 172.16.8.0 0.0.1.255
+access-list 130 permit ip 20.0.1.0 0.0.0.255 172.16.8.0 0.0.1.255
+access-list 130 permit ip 30.0.0.0 0.0.0.255 172.16.8.0 0.0.1.255
+access-list 130 permit ip 30.0.1.0 0.0.0.255 172.16.8.0 0.0.1.255
 access-list 130 permit ip 192.168.0.0 0.0.3.255 172.16.8.0 0.0.1.255
 access-list 130 permit ip 192.168.4.0 0.0.1.255 172.16.8.0 0.0.1.255
 access-list 130 permit ip 192.168.6.0 0.0.0.255 172.16.8.0 0.0.1.255
 access-list 130 permit ip 192.168.7.0 0.0.0.255 172.16.8.0 0.0.1.255
-access-list 140 permit ip 10.0.0.0 0.0.0.255 172.16.10.0 0.0.0.255
+access-list 140 permit ip 20.0.0.0 0.0.0.255 172.16.10.0 0.0.0.255
+access-list 140 permit ip 20.0.1.0 0.0.0.255 172.16.10.0 0.0.0.255
+access-list 140 permit ip 30.0.0.0 0.0.0.255 172.16.10.0 0.0.0.255
+access-list 140 permit ip 30.0.1.0 0.0.0.255 172.16.10.0 0.0.0.255
 access-list 140 permit ip 192.168.4.0 0.0.1.255 172.16.10.0 0.0.0.255
 access-list 140 permit ip 192.168.7.0 0.0.0.255 172.16.10.0 0.0.0.255
 access-list 110 deny ip any any
@@ -689,14 +724,14 @@ ip address 192.168.0.2 255.255.252.0
 standby 2 ip 192.168.0.1
 standby 2 priority 150
 standby 2 preempt
-ip helper-address 30.0.0.10
+ip helper-address 30.0.0.12
 int gigabitEthernet 0/0.20
 encapsulation dot1Q 20
 ip address 192.168.4.2 255.255.254.0
 standby 2 ip 192.168.4.1
 standby 2 priority 150
 standby 2 preempt
-ip helper-address 30.0.0.10
+ip helper-address 30.0.0.12
 int gigabitEthernet 0/0
 no shut
 !
@@ -706,14 +741,14 @@ ip address 192.168.6.2 255.255.255.0
 standby 2 ip 192.168.6.1
 standby 2 priority 150
 standby 2 preempt
-ip helper-address 30.0.0.10
+ip helper-address 30.0.0.12
 int gigabitEthernet 0/1.40
 encapsulation dot1Q 40
 ip address 192.168.7.2 255.255.255.0
 standby 2 ip 192.168.7.1
 standby 2 priority 150
 standby 2 preempt
-ip helper-address 30.0.0.10
+ip helper-address 30.0.0.12
 int gigabitEthernet 0/1
 no shut
 int serial 0/0/0
@@ -732,14 +767,17 @@ network 192.168.0.0 mask 255.255.252.0
 network 192.168.4.0 mask 255.255.254.0
 network 192.168.6.0 mask 255.255.255.0
 network 192.168.7.0 mask 255.255.255.0
-network 192.168.8.0 mask 255.255.255.252
-neighbor 12.0.0.1 remote-as 100
-neighbor 13.0.0.1 remote-as 300
+neighbor 12.0.0.17 remote-as 100
+neighbor 12.0.0.29 remote-as 300
+neighbor 12.0.0.9 remote-as 400
 neighbor 172.16.0.1 remote-as 100
 neighbor 172.16.4.1 remote-as 100
 neighbor 172.16.8.1 remote-as 100
 neighbor 172.16.10.1 remote-as 100
-neighbor 10.0.0.1 remote-as 300
+neighbor 20.0.0.1 remote-as 300
+neighbor 20.0.1.1 remote-as 300
+neighbor 30.0.0.1 remote-as 400
+neighbor 30.0.1.1 remote-as 400
 exit
 !
 line con 0
@@ -751,8 +789,35 @@ line vty 0 15
  login local
  exec-timeout 5 0
 exit
-ip route 192.168.6.0 255.255.255.0 192.168.8.2
-ip route 192.168.7.0 255.255.255.0 192.168.8.2
+access-list 110 permit ip 20.0.0.0 0.0.0.255 192.168.0.0 0.0.3.255
+access-list 110 permit ip 20.0.1.0 0.0.0.255 192.168.0.0 0.0.3.255
+access-list 110 permit ip 30.0.0.0 0.0.0.255 192.168.0.0 0.0.3.255
+access-list 110 permit ip 30.0.1.0 0.0.0.255 192.168.0.0 0.0.3.255
+access-list 110 permit ip 172.16.0.0 0.0.3.255 192.168.0.0 0.0.3.255
+access-list 110 permit ip 172.16.8.0 0.0.1.255 192.168.0.0 0.0.3.255
+access-list 120 permit ip 20.0.0.0 0.0.0.255 192.168.4.0 0.0.1.255
+access-list 120 permit ip 20.0.1.0 0.0.0.255 192.168.4.0 0.0.1.255
+access-list 120 permit ip 30.0.0.0 0.0.0.255 192.168.4.0 0.0.1.255
+access-list 120 permit ip 30.0.1.0 0.0.0.255 192.168.4.0 0.0.1.255
+access-list 120 permit ip 172.16.4.0 0.0.3.255 192.168.4.0 0.0.1.255
+access-list 120 permit ip 172.16.8.0 0.0.1.255 192.168.4.0 0.0.1.255
+access-list 120 permit ip 172.16.10.0 0.0.0.255 192.168.4.0 0.0.1.255
+access-list 130 permit ip 20.0.0.0 0.0.0.255 192.168.6.0 0.0.0.255
+access-list 130 permit ip 20.0.1.0 0.0.0.255 192.168.6.0 0.0.0.255
+access-list 130 permit ip 30.0.0.0 0.0.0.255 192.168.6.0 0.0.0.255
+access-list 130 permit ip 30.0.1.0 0.0.0.255 192.168.6.0 0.0.0.255
+access-list 130 permit ip 172.16.8.0 0.0.1.255 192.168.6.0 0.0.0.255
+access-list 140 permit ip 20.0.0.0 0.0.0.255 192.168.7.0 0.0.0.255
+access-list 140 permit ip 20.0.1.0 0.0.0.255 192.168.7.0 0.0.0.255
+access-list 140 permit ip 30.0.0.0 0.0.0.255 192.168.7.0 0.0.0.255
+access-list 140 permit ip 30.0.1.0 0.0.0.255 192.168.7.0 0.0.0.255
+access-list 140 permit ip 172.16.4.0 0.0.3.255 192.168.7.0 0.0.0.255
+access-list 140 permit ip 172.16.8.0 0.0.1.255 192.168.7.0 0.0.0.255
+access-list 140 permit ip 172.16.10.0 0.0.0.255 192.168.7.0 0.0.0.255
+access-list 110 deny ip any any
+access-list 120 deny ip any any
+access-list 130 deny ip any any
+access-list 140 deny ip any any
 exit
 copy running-config startup-config
 --------------------------------------------------------
@@ -771,12 +836,12 @@ int gigabitEthernet 0/0.10
 encapsulation dot1Q 10
 ip address 192.168.0.3 255.255.252.0
 standby 2 ip 192.168.0.1
-ip helper-address 30.0.0.10
+ip helper-address 30.0.0.12
 int gigabitEthernet 0/0.20
 encapsulation dot1Q 20
 ip address 192.168.4.3 255.255.254.0
 standby 2 ip 192.168.4.1
-ip helper-address 30.0.0.10
+ip helper-address 30.0.0.12
 int gigabitEthernet 0/0
 no shut
 !
@@ -784,12 +849,12 @@ int gigabitEthernet 0/1.30
 encapsulation dot1Q 30
 ip address 192.168.6.3 255.255.255.0
 standby 2 ip 192.168.6.1
-ip helper-address 30.0.0.10
+ip helper-address 30.0.0.12
 int gigabitEthernet 0/1.40
 encapsulation dot1Q 40
 ip address 192.168.7.3 255.255.255.0
 standby 2 ip 192.168.7.1
-ip helper-address 30.0.0.10
+ip helper-address 30.0.0.12
 int gigabitEthernet 0/1
 no shut
 int serial 0/0/0
@@ -798,6 +863,21 @@ no shut
 int serial 0/0/1
 ip address 12.0.0.14 255.255.255.252
 no shut
+exit
+!
+router bgp 200
+network 192.168.0.0 mask 255.255.252.0
+network 192.168.4.0 mask 255.255.254.0
+network 192.168.6.0 mask 255.255.255.0
+network 192.168.7.0 mask 255.255.255.0
+neighbor 12.0.0.21 remote-as 100
+neighbor 12.0.0.13 remote-as 400
+neighbor 172.16.0.1 remote-as 100
+neighbor 172.16.4.1 remote-as 100
+neighbor 172.16.8.1 remote-as 100
+neighbor 172.16.10.1 remote-as 100
+neighbor 30.0.0.1 remote-as 400
+neighbor 30.0.1.1 remote-as 400
 exit
 !
 line con 0
@@ -809,14 +889,36 @@ line vty 0 15
  login local
  exec-timeout 5 0
 exit
-ip route 192.168.0.0 255.255.252.0 192.168.8.1 
-ip route 192.168.4.0 255.255.254.0 192.168.8.1 
-ip route 172.16.0.0 255.255.252.0 192.168.8.1 
-ip route 172.16.4.0 255.255.252.0 192.168.8.1 
-ip route 172.16.8.0 255.255.254.0 192.168.8.1 
-ip route 172.16.10.0 255.255.255.0 192.168.8.1
-ip route 10.0.0.0 255.255.255.0 192.168.8.1
+access-list 110 permit ip 20.0.0.0 0.0.0.255 192.168.0.0 0.0.3.255
+access-list 110 permit ip 20.0.1.0 0.0.0.255 192.168.0.0 0.0.3.255
+access-list 110 permit ip 30.0.0.0 0.0.0.255 192.168.0.0 0.0.3.255
+access-list 110 permit ip 30.0.1.0 0.0.0.255 192.168.0.0 0.0.3.255
+access-list 110 permit ip 172.16.0.0 0.0.3.255 192.168.0.0 0.0.3.255
+access-list 110 permit ip 172.16.8.0 0.0.1.255 192.168.0.0 0.0.3.255
+access-list 120 permit ip 20.0.0.0 0.0.0.255 192.168.4.0 0.0.1.255
+access-list 120 permit ip 20.0.1.0 0.0.0.255 192.168.4.0 0.0.1.255
+access-list 120 permit ip 30.0.0.0 0.0.0.255 192.168.4.0 0.0.1.255
+access-list 120 permit ip 30.0.1.0 0.0.0.255 192.168.4.0 0.0.1.255
+access-list 120 permit ip 172.16.4.0 0.0.3.255 192.168.4.0 0.0.1.255
+access-list 120 permit ip 172.16.8.0 0.0.1.255 192.168.4.0 0.0.1.255
+access-list 120 permit ip 172.16.10.0 0.0.0.255 192.168.4.0 0.0.1.255
+access-list 130 permit ip 20.0.0.0 0.0.0.255 192.168.6.0 0.0.0.255
+access-list 130 permit ip 20.0.1.0 0.0.0.255 192.168.6.0 0.0.0.255
+access-list 130 permit ip 30.0.0.0 0.0.0.255 192.168.6.0 0.0.0.255
+access-list 130 permit ip 30.0.1.0 0.0.0.255 192.168.6.0 0.0.0.255
+access-list 130 permit ip 172.16.8.0 0.0.1.255 192.168.6.0 0.0.0.255
+access-list 140 permit ip 20.0.0.0 0.0.0.255 192.168.7.0 0.0.0.255
+access-list 140 permit ip 20.0.1.0 0.0.0.255 192.168.7.0 0.0.0.255
+access-list 140 permit ip 30.0.0.0 0.0.0.255 192.168.7.0 0.0.0.255
+access-list 140 permit ip 30.0.1.0 0.0.0.255 192.168.7.0 0.0.0.255
+access-list 140 permit ip 172.16.4.0 0.0.3.255 192.168.7.0 0.0.0.255
+access-list 140 permit ip 172.16.8.0 0.0.1.255 192.168.7.0 0.0.0.255
+access-list 140 permit ip 172.16.10.0 0.0.0.255 192.168.7.0 0.0.0.255
+access-list 110 deny ip any any
+access-list 120 deny ip any any
+access-list 130 deny ip any any
+access-list 140 deny ip any any
 exit
 copy running-config startup-config
 
-LINEA 822
+LINEA 924
